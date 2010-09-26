@@ -24,6 +24,9 @@ import javafx.scene.layout.Container;
 import javafx.scene.layout.Stack;
 import javafx.scene.shape.Line;
 import javafx.scene.layout.ClipView;
+import javafx.scene.layout.Panel;
+import javafx.geometry.VPos;
+import javafx.geometry.HPos;
 
 /**
  * @author clewin
@@ -31,7 +34,7 @@ import javafx.scene.layout.ClipView;
 def appMap = new HashMap();
 
 appMap.put("Circle", new CircleApp());
-appMap.put("Bars", new BarsApp());
+//appMap.put("Bars", new BarsApp());
 appMap.put("Axes", new Axes());
 var appSeq: String[] = for (k in appMap.keySet()) { k as String };
 //var keyset:String[] = bind appMap.key
@@ -40,7 +43,7 @@ var appListView: ListView;
 var currentApp: Node = bind appMap.get("CircleApp") as Node;
 def scale_per_wheelmove = 0.2;
 var scale = 1.0;
-def TOOLBAR_WIDTH = 60;
+def TOOLBAR_WIDTH = 100;
 var screenScale = 400;
 
 Stage {
@@ -55,7 +58,7 @@ Stage {
 
             //Separate the main canvas on the right from the controls on the left
             HBox {
-                spacing: 0
+                spacing: 20
 
                 content: [
 
@@ -63,30 +66,35 @@ Stage {
                         content: [
                             appListView = ListView {
                                         items: appSeq
-                                        layoutInfo: LayoutInfo { width: TOOLBAR_WIDTH height: 200 }
+                                        layoutInfo: LayoutInfo { width: TOOLBAR_WIDTH height: 100 }
                                     }
-
-                            Text {
-                                font: Font {
-                                    size: 16
-                                }
-                                x: 10
-                                y: 30
-                                content: "Control panel"
+                            Panel {
+                                width: TOOLBAR_WIDTH
+                                content: bind (appMap.get(appListView.selectedItem as String) as App).getControlPanel()
                             }
                         ]
                     },
 
                     ClipView {
                         pannable: true
-                        //layoutInfo: LayoutInfo {
-                        // width: 3000
-                        // height: 2000
-                        //}
 
-                        node: Group {
+                        node: Stack {
+
+                            nodeVPos: VPos.TOP
+                            nodeHPos: HPos.LEFT
                             content: [
+                                Rectangle {
+                                    fill: Color.DARKGRAY
+                                    width: 400
+                                    height: 400
+                                },
+                                Group {
 
+                                    transforms: [Transform.translate(200, 200), Transform.scale(200, -200, 0, 0)]
+                                    content: bind (appMap.get(appListView.selectedItem as String) as App).getNode();
+                                },
+                                VBox {
+                                    content: [
                                 Text {
                                     fill: Color.BLACK
                                     x: 10
@@ -98,11 +106,7 @@ Stage {
                                     x: 10
                                     y: 30
                                     content: bind "Scale: ({xOffset},{yOffset})"
-                                },
-
-                                Group {
-                                    transforms: [Transform.translate(200, 200), Transform.scale(200, 200, 0, 0)]
-                                    content: bind appMap.get(appListView.selectedItem as String) as Node;
+                                }]
                                 }
                             ]
                         }
