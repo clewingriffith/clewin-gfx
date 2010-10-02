@@ -43,15 +43,13 @@ public class ComplexPowersApp extends App  {
 
     var backend: clewin.app.ComplexPowersApp = new clewin.app.ComplexPowersApp();
 
-    var cx: UIComplex[];
-
     override function getNode() {
         
-        cx = backend.invoke(new UIComplex(startInput.re, startInput.im),
-        new UIComplex(transInput.re, transInput.im),
-        0,2 );
+        
         Group {
-            content: bind for (p in cx) {
+            content: bind for (p in backend.invoke(new UIComplex(startInput.re, startInput.im),
+        new UIComplex(transInput.re, transInput.im),
+        minPower.value,maxPower.value )) {
                 Circle {
                         centerX: p.re
                         centerY: p.im
