@@ -1,6 +1,11 @@
 package clewin
 
+import clewin.app.binding.UIComplex
 
+
+/**
+ * Scala Complex class
+ */
 class Complex(val re:Double, val im:Double) {
 	
 	//single argument constructor assumes this is just a real number.
@@ -53,4 +58,5 @@ object Complex {
 		val v = c.im/(2*u)
 		return new Complex(u, v);
 	}
+
 }

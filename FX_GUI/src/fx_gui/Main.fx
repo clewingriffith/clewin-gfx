@@ -27,6 +27,7 @@ import javafx.scene.layout.ClipView;
 import javafx.scene.layout.Panel;
 import javafx.geometry.VPos;
 import javafx.geometry.HPos;
+import fx_gui.ComplexPowersApp;
 
 /**
  * @author clewin
@@ -36,6 +37,7 @@ def appMap = new HashMap();
 appMap.put("Circle", new CircleApp());
 //appMap.put("Bars", new BarsApp());
 appMap.put("Axes", new Axes());
+appMap.put("ComplexPowers", new ComplexPowersApp());
 var appSeq: String[] = for (k in appMap.keySet()) { k as String };
 //var keyset:String[] = bind appMap.key
 var appListView: ListView;
